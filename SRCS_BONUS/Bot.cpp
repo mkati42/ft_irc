@@ -155,6 +155,7 @@ void listen(bot_t *bot)
 		}
 		buffer[recvlen] = '\0';
 		std::string msg(buffer);
+		std::cout << msg;
 		if (extractBotCommand(msg) == "bot.mkati\r\n")
 		{
 			sendToIrc(sockFd, "PRIVMSG " + bot->chName + " :Mkati is a good guy");

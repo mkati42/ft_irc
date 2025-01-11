@@ -112,6 +112,7 @@ std::string IrcServer::messageParser(int fd)
     while (!isComplated)
     {
         ssize_t recvlen = recv(fd, buffer, 255, 0);
+        std::cout << buffer << std::endl;
         if (recvlen == -1)
         {
             if (errno == EWOULDBLOCK || errno == EAGAIN)
@@ -132,9 +133,20 @@ std::string IrcServer::messageParser(int fd)
                 if (this->clients[i].fd == fd)
                 {
                     std::cerr << "Error: Unexpected Client Disconnection That User Connects From " << this->clients[i].client_ip  << ":" << clients[i].client_port << std::endl;
-                    close(fd);
+                    for (size_t j = 0; j < this->channels.size(); j++)
+                    {
+                        for (size_t k = 0; k < this->channels[j].clients.size(); k++)
+                        {
+                            if (this->channels[j].clients[k].fd == fd)
+                            {
+                                CommandExecuter commandExecuter(this, "PART " + this->channels[j].name, &this->channels[j].clients[k]);
+                                this->channels[j].clients.erase(this->channels[j].clients.begin() + k);
+                            }
+                        }
+                    }
                     this->pollFds.erase(this->pollFds.begin() + i + 1);
                     this->clients.erase(this->clients.begin() + i);
+                    close(fd);
                     return "";
                 }
             }
