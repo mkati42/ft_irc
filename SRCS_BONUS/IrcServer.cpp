@@ -1,5 +1,5 @@
-#include "../INCS/IrcServer.hpp"
-#include "../INCS/CommandExecuter.hpp"
+#include "../INCS_BONUS/IrcServer.hpp"
+#include "../INCS_BONUS/CommandExecuter.hpp"
 
 
 IrcServer::IrcServer(const std::string &port, const std::string &password) : port(port), password(password)

@@ -22,4 +22,5 @@ int         checkArgs(const char *port, const char *password);
 std::string size_tToString(size_t n);
 int			charPToInt(const char *str);
 
+
 #endif

@@ -1,4 +1,4 @@
-#include "../INCS/CommandExecuter.hpp"
+#include "../INCS_BONUS/CommandExecuter.hpp"
 
 CommandExecuter::CommandExecuter(IrcServer *server, std::string message, t_client *client) : server(server), message(message), client(client)
 {
@@ -328,6 +328,8 @@ void CommandExecuter::executePrivmsgCommand()
 		if (i != this->splitMessage.size() - 1)
 			message += " ";
 	}
+	if (message[0] == ':')
+		message = message.substr(1, message.length());
     for (size_t i = 0; i < this->server->getClients().size(); i++)
     {
         if (this->server->getClients()[i].nickName == this->splitMessage[1])
