@@ -1,12 +1,15 @@
 NAME = ircserv
 BONUS_NAME = ircserv_bonus
+BONUS_BOT = ircserv_bonus_bot
 SRC = SRCS/main.cpp SRCS/Argcontrols.cpp SRCS/IrcServer.cpp SRCS/CommandExecuter.cpp
 BONUS_SRCS = SRCS_BONUS/main.cpp SRCS_BONUS/Argcontrols.cpp SRCS_BONUS/IrcServer.cpp SRCS_BONUS/CommandExecuter.cpp
+BONUS_SRCS_BOT = SRCS_BONUS/Bot.cpp
 CPP = c++
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 RM = rm -rf
 OBJ = $(SRC:.cpp=.o)
 BONUS_OBJ = $(BONUS_SRCS:.cpp=.o)
+BONUS_OBJ_BOT = $(BONUS_SRCS_BOT:.cpp=.o)
 
 RESET=\033[0m
 RED=\033[31m
@@ -50,7 +53,7 @@ $(NAME): $(SRC) $(OBJ)
 
 bonus : $(BONUS_NAME)
 
-$(BONUS_NAME): $(BONUS_SRCS) $(BONUS_OBJ)
+$(BONUS_NAME): $(BONUS_SRCS) $(BONUS_OBJ) 
 	$(CPP) $(CPPFLAGS) $(BONUS_SRCS) -o $(BONUS_NAME)
 	@echo "$(LIGHT_GREEN)"
 	@echo "IRC Bonus Compiled"
@@ -70,6 +73,14 @@ $(BONUS_NAME): $(BONUS_SRCS) $(BONUS_OBJ)
 	@echo "$(RESET)"
 	@echo "$(BLUE)				by uarslan & acan & mkati$(RESET)"
 
+bonus_bot : $(BONUS_BOT)
+
+$(BONUS_BOT): $(BONUS_SRCS_BOT) $(BONUS_OBJ_BOT)
+	$(CPP) $(CPPFLAGS) $(BONUS_SRCS_BOT) -o $(BONUS_BOT)
+	@echo "$(LIGHT_GREEN)"
+	@echo "IRC Bonus Bot Compiled"
+	@echo "$(RESET)"
+
 clean:
 	@clear
 	@$(RM) $(OBJ)
@@ -80,6 +91,11 @@ clean_bonus:
 	@$(RM) $(BONUS_OBJ)
 	@echo "$(YELLOW)Object files removed$(RESET)"
 
+clean_bonus_bot:
+	@clear
+	@$(RM) $(BONUS_OBJ_BOT)
+	@echo "$(YELLOW)Object files removed$(RESET)"
+
 fclean: clean
 	@$(RM) $(NAME)
 	@echo "$(RED)Executable removed$(RESET)"
@@ -88,8 +104,14 @@ fclean_bonus: clean_bonus
 	@$(RM) $(BONUS_NAME)
 	@echo "$(RED)Executable removed$(RESET)"
 
+fclean_bonus_bot: clean_bonus_bot
+	@$(RM) $(BONUS_BOT)
+	@echo "$(RED)Executable removed$(RESET)"
+
 re_bonus: fclean_bonus bonus
+
+re_bonus_bot: fclean_bonus_bot bonus_bot
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus clean_bonus fclean_bonus re_bonus
+.PHONY: all clean fclean re bonus clean_bonus fclean_bonus re_bonus bonus_bot clean_bonus_bot fclean_bonus_bot re_bonus_bot
